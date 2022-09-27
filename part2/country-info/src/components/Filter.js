@@ -1,9 +1,9 @@
-const Filter = (props) => {
+const Filter = ({value, handleFilterChange}) => {
     return(
         <>
-        <div>
-        search countries: <input 
-        onChange={props.handleFilterChange} />
+        <div >
+        search countries: <input value={value}
+        onChange={handleFilterChange} />
       </div>
         </>
     )
