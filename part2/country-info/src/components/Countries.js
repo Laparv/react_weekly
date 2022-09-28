@@ -23,6 +23,9 @@ const Countries = ({countriesToShow, changeFilter}) => {
             <Country oneCountry={countriesToShow}/>
         </>
     )}
+    else {
+        return <p>No countries to show with that filter</p>
+    }
   }
 
   
