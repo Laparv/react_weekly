@@ -1,10 +1,18 @@
-const Persons = (props) => {
+import personService from '../services/persons'
+import { useState,useEffect } from 'react'
+
+
+const Persons = ({namesToShow, getDeleteIdAndName}) => {
     return(
       <>
-      <ul>{props.namesToShow.map(x => 
-        <li key={x.name}>{x.name} {x.number}</li>)}
-      </ul>
+      {namesToShow.map(x => 
+        <p key={x.name}>{x.name} {x.number} <button onClick={() => getDeleteIdAndName(x.id, x.name) }>delete</button>
+        
+        </p>)}
+      
       </>
     )
   }
+
+
   export default Persons;
