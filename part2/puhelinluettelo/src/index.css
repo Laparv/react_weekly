@@ -15,3 +15,20 @@ li {
   
   list-style-type: none;
 }
+.greenMessage, .redMessage {
+  color: green;
+  background: lightgreen;
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.redMessage {
+  color: black;
+  background: red;
+}
+.greenMessage {
+  color: green;
+  background: lightgreen;
+}

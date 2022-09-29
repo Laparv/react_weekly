@@ -3,12 +3,15 @@ import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import Filter from './components/Filter'
 import personService from './services/persons'
+import Notification from './components/Notification'
+
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilterName] = useState('')
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     console.log('effect')
@@ -42,6 +45,9 @@ const App = () => {
                 setPersons(persons.map(x => x.id === id ? updatedPerson : x))
                 setNewName('')
                 setNewNumber('')
+              }).catch(error => {
+                setPersons(persons.filter(n => n.id !== id))
+                setMessage(`Update failed. Information of ${changedNumber.name} has been deleted from server`)
               })
           }
 
@@ -49,7 +55,12 @@ const App = () => {
             if(window.confirm(`${newName} is already in the phonebook. Update number?`)){
           
             updateNumber(persons.find(x => x.name === newName).id)}
-           }
+            else{
+            setMessage(`Updated number for ${newName}`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
+           }}
           else{
           personService
           .create(personObject)
@@ -57,6 +68,10 @@ const App = () => {
             setPersons(persons.concat(addedPerson))
             setNewName('')
             setNewNumber('')
+            setMessage(`${newName} was added`)
+            setTimeout(() => {
+              setMessage(null)
+            }, 5000)
           })
   }}
   
@@ -69,6 +84,10 @@ const App = () => {
       personService.getAll()
       .then(updatedList => {
         setPersons(updatedList)
+        setMessage("Deleted contact")
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
     })
   }
@@ -96,6 +115,7 @@ const App = () => {
     <div>
       <h2>Phonebook</h2>
         <Filter handleFilterChange= {handleFilterChange}/>
+        <Notification message={message}/>
       <h2>Add contact</h2>
         <PersonForm 
           addName={addName} 
