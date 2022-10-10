@@ -12,7 +12,8 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [filterName, setFilterName] = useState('')
   const [message, setMessage] = useState(null)
-
+  
+  
   useEffect(() => {
     console.log('effect')
     personService
@@ -25,7 +26,7 @@ const App = () => {
   },[])
   
   console.log('render', persons.length, 'persons')
-
+ 
   
 
   const addName = (event) => {
@@ -48,6 +49,9 @@ const App = () => {
               }).catch(error => {
                 setPersons(persons.filter(n => n.id !== id))
                 setMessage(`Update failed. Information of ${changedNumber.name} has been deleted from server`)
+                setTimeout(() => {
+                  setMessage(null)
+                }, 5000)
               })
           }
 
@@ -65,7 +69,7 @@ const App = () => {
           personService
           .create(personObject)
           .then(addedPerson => {
-            setPersons(persons.concat(addedPerson))
+            setPersons(addedPerson)
             setNewName('')
             setNewNumber('')
             setMessage(`${newName} was added`)
@@ -109,7 +113,8 @@ const App = () => {
     setFilterName(event.target.value)
   }
 
-  const namesToShow = persons.filter(x => x.name.toLowerCase().includes(filterName))
+  const namesToShow =  persons.filter(x => x.name.toLowerCase().includes(filterName.toLowerCase()))
+  
 
   return (
     <div>

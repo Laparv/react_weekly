@@ -1,24 +1,19 @@
 {
   "persons": [
     {
-      "name": "hyjykyk",
-      "number": "463634",
-      "id": 6
+      "name": "lasse",
+      "number": "uusinumero2312312312",
+      "id": 2
     },
     {
-      "name": "tyktyjy",
-      "number": "sdasdas",
-      "id": 7
+      "name": "mari-anne",
+      "number": "232323",
+      "id": 3
     },
     {
-      "name": "sdsdasd",
-      "number": "2333333",
-      "id": 9
-    },
-    {
-      "name": "Lasse Parviainen",
-      "number": "uusi numero",
-      "id": 10
+      "name": "jere",
+      "number": "23124123",
+      "id": 4
     }
   ]
 }

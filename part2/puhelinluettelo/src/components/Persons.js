@@ -1,8 +1,5 @@
-import personService from '../services/persons'
-import { useState,useEffect } from 'react'
-
-
 const Persons = ({namesToShow, getDeleteIdAndName}) => {
+
     return(
       <>
       {namesToShow.map(x => 
