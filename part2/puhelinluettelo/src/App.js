@@ -36,9 +36,10 @@ const App = () => {
             number: newNumber
           }
           const updateNumber = id => {
-            const person = persons.find(x => x.id === id)
+            const person = persons.find(x => x._id === id)
             const changedNumber = {...person, number: newNumber}
             console.log(changedNumber)
+            console.log(id)
         
             personService
               .update(id,changedNumber)
@@ -58,18 +59,20 @@ const App = () => {
           if(persons.find(x => x.name === newName)) { 
             if(window.confirm(`${newName} is already in the phonebook. Update number?`)){
           
-            updateNumber(persons.find(x => x.name === newName).id)}
-            else{
+            updateNumber(persons.find(x => x.name === newName)._id)
+            personService.getAll().then(updatedList => {setPersons(updatedList)})
             setMessage(`Updated number for ${newName}`)
             setTimeout(() => {
               setMessage(null)
             }, 5000)
-           }}
+          
+          }
+          }
           else{
           personService
           .create(personObject)
           .then(addedPerson => {
-            setPersons(addedPerson)
+            setPersons(persons.concat(addedPerson))
             setNewName('')
             setNewNumber('')
             setMessage(`${newName} was added`)
@@ -77,10 +80,15 @@ const App = () => {
               setMessage(null)
             }, 5000)
           })
+          .catch(error => 
+            setMessage(`${error.response.data.error}`),
+            setTimeout(() => {setMessage(null)}, 5000)
+          )
   }}
   
   const deleteName = (id, name) => {
     if(window.confirm(`Delete ${name}?`)){
+      console.log(name, id)
     personService
     .remove(id)
     .then(() => {

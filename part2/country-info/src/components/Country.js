@@ -23,10 +23,10 @@ const Country = ({oneCountry}) => {
         .get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&units=metric&appid=${apikey}`)
         .then(response => {
             console.log('weather promise fulfilled')
+            console.log(response.data)
             setTemperature(response.data.main.temp)
             setIcon(response.data.weather[0].icon)
             setWind(response.data.wind.speed)
-            console.log(response.data)
         })
         .catch(error =>{
             console.log(error)
@@ -48,6 +48,7 @@ const Country = ({oneCountry}) => {
             <p>temperature: {temperature} °C</p>
             <img src={iconSource}></img>
             <p>wind: {wind} m/s</p>
+
             
         </>
     )
