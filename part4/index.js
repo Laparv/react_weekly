@@ -3,27 +3,9 @@ const http = require('http')
 const express = require('express')
 const app = express()
 const cors = require('cors')
-const mongoose = require('mongoose')
+const Blog = require('./models/blog')
 
 
-const blogSchema = mongoose.Schema({
-  title: String,
-  author: String,
-  url: String,
-  likes: Number
-})
-
-const Blog = mongoose.model('Blog', blogSchema)
-
-blogSchema.set('toJSON', {
-    transform:  (document, returnedObject) => {
-        returnedObject._id = returnedObject._id.toString()
-        delete returnedObject.__v
-    }
-})
-
-const mongoUrl = process.env.MONGODB_URI
-mongoose.connect(mongoUrl)
 
 app.use(cors())
 app.use(express.json())
