@@ -16,12 +16,26 @@ const totalLikes = (blogs) => {
 const favoriteBlog = (blogs) => {
 
     const mostLikes = Math.max(...blogs.map(x => x.likes))
-    console.log('IN FUNCTION.', blogs.map(x => x.likes))
-    console.log('MOST LIKES.', mostLikes)
+    
+    const mostLikedBlog = blogs.find(blog => blog.likes === mostLikes)
 
-    return blogs.find(blog => blog.likes === mostLikes)
+    if(blogs.length > 0){
+
+      let response = {
+        title: mostLikedBlog.title,
+        author: mostLikedBlog.author,
+        likes: mostLikedBlog.likes
+      }
+      return response
+    }
+    else {return null}
+
+  }
+
+const mostBlogs = (blogs) => {
+  const testi = blogs.map(x => x.author)
+
 }
-
    
 
 
@@ -29,5 +43,6 @@ const favoriteBlog = (blogs) => {
   module.exports = {
     dummy,
     totalLikes,
-    favoriteBlog
+    favoriteBlog,
+    mostBlogs
   }
