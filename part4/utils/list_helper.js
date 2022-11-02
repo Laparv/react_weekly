@@ -1,3 +1,4 @@
+const _ = require('lodash');
 
 const dummy = (blogs) => {
     return 1;
@@ -33,8 +34,19 @@ const favoriteBlog = (blogs) => {
   }
 
 const mostBlogs = (blogs) => {
-  const testi = blogs.map(x => x.author)
+  
+  const countedAuthors = _.countBy(blogs, "author");
 
+  const topAuthor =  Object.keys(countedAuthors).reduce((a,b) => {
+      return countedAuthors[a] > countedAuthors[b] ? a : b
+    })
+
+  const result = {
+    author: topAuthor,
+    blogs: countedAuthors[topAuthor]
+  }
+return result
+  
 }
    
 
