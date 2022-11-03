@@ -49,12 +49,36 @@ return result
   
 }
    
+const mostLikes = (blogs) => {
 
+  const authorBlogs = _.groupBy(blogs, "author");
+
+
+  const authorLikes = _.mapValues(authorBlogs, (arrays) => {
+    return arrays.map(x => x.likes).reduce((a,b) => {
+      return a+b;
+    })
+  })
+
+  const mostLikedAuthor =  Object.keys(authorLikes).reduce((a,b) => {
+    return authorLikes[a] > authorLikes[b] ? a : b
+  })
+
+
+  const result = {
+    author: mostLikedAuthor,
+    likes: authorLikes[mostLikedAuthor]
+  }
+
+  return result
+
+}
 
   
   module.exports = {
     dummy,
     totalLikes,
     favoriteBlog,
-    mostBlogs
+    mostBlogs,
+    mostLikes
   }

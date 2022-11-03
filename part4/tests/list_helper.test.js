@@ -128,3 +128,18 @@ test('null with empty list', () => {
 })
 
 })
+
+describe('most likes', () =>{
+
+  test('by author', () => {
+    const result = listHelper.mostLikes(blogList)
+  
+    let testExpectation = {
+      author: "Edsger W. Dijkstra",
+      likes: 17
+    }
+  
+    expect(result).toEqual(testExpectation)
+  })
+ 
+  })
