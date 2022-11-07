@@ -73,9 +73,21 @@ test('if no value given to likes it amounts to 0', async () => {
   .expect('Content-Type', /application\/json/)
 
   const response = await api.get('/api/blogs')
-  
+
   expect(response.body[helper.initialBlogs.length].likes).toBe(0)
 
+})
+
+test('if no title or url respond 400', async () => {
+
+  const faultyBlog = {
+    author: "Lasse Parviainen"
+  }
+
+  await api
+  .post('/api/blogs')
+  .send(faultyBlog)
+  .expect(400)
 })
 
 afterAll(() => {
