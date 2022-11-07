@@ -39,6 +39,29 @@ const initialBlogs = [
     }  
   ]
 
+  const newBlog = {
+    title: "Testing out tests",
+    author: "Lasse Parviainen",
+    url: "http://localhost:3003/api/blogs",
+    likes: 100,
+  }
+
+  const blogWithNoLikes = {
+    title: "Testing out tests",
+    author: "Lasse Parviainen",
+    url: "http://localhost:3003/api/blogs",
+  }
+  
+  const blogsInDb = async () => {
+
+    const blogs = await Blog.find({})
+    return blogs.map(blog => blog.toJSON())
+
+  }
+
   module.exports = {
-    initialBlogs
+    initialBlogs,
+    newBlog,
+    blogWithNoLikes,
+    blogsInDb
   }
