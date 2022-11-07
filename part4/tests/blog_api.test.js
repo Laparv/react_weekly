@@ -87,7 +87,6 @@ describe('when posting a new blog', () => {
 test('blog deleted with id', async () => {
 
     const response = await helper.blogsInDb()
-    console.log(response)
 
     const deletionId = response[0].id
 
@@ -99,6 +98,20 @@ test('blog deleted with id', async () => {
 
   expect(blogsLeft.length).toBe(helper.initialBlogs.length -1)
  
+})
+
+test('blog updated with id', async () => {
+  const response = await helper.blogsInDb()
+
+  const updateId = response[0].id
+  await api
+  .put(`/api/blogs/${updateId}`)
+  .send(helper.blogUpdate)
+  .expect(200)
+
+  const updatedList = await helper.blogsInDb()
+
+  expect(updatedList[0].title).toContain('Update test')
 })
 
 afterAll(() => {

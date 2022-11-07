@@ -51,6 +51,10 @@ const initialBlogs = [
     author: "Lasse Parviainen",
     url: "http://localhost:3003/api/blogs",
   }
+
+  const blogUpdate = {
+    title: "Update test"
+  }
   
   const blogsInDb = async () => {
 
@@ -63,5 +67,6 @@ const initialBlogs = [
     initialBlogs,
     newBlog,
     blogWithNoLikes,
-    blogsInDb
+    blogsInDb,
+    blogUpdate
   }
