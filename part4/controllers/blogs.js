@@ -3,6 +3,7 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 const { usersInDb } = require('../tests/test_helper')
+const config = require('../utils/config')
 
 
 
@@ -18,7 +19,7 @@ blogsRouter.get('/', async (request, response) => {
 blogsRouter.post('/', async (request, response) => {
 
   const body = request.body
-  const decodedToken = jwt.verify(request.token, process.env.SECRET)
+  const decodedToken = jwt.verify(request.token, config.SECRET)
 
   if(!request.token || !decodedToken.id) {
     return response.status(401).json({error: 'token missing or invalid'})
@@ -62,17 +63,22 @@ blogsRouter.put('/:id', async (request, response) => {
 
 blogsRouter.delete('/:id', async (request, response) => {
 
+  const user = request.user
+  const decodedToken = jwt.verify(request.token, config.SECRET)
+
+  if(!request.token || !decodedToken.id) {
+    return response.status(401).json({error: 'token missing or invalid'})
+  }
 
   const blog = await Blog.findById(request.params.id)
-  const user = request.user
 
-  if(blog.user.toString() === user.id){
+  if(blog.user.toString() === user.id.toString()){
     await Blog.findByIdAndRemove(request.params.id)
     response.status(204).end()
   }
 
-  else if(blog.user.toString() !== decodedToken.id) {
-    return response.status(401).json({error: 'Cannot delete with wrong user'})
+  else{
+    response.status(401).json({error: 'Cannot delete with wrong user'})
   }
   
 })
