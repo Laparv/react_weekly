@@ -2,6 +2,9 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import BlogForm from './components/BlogForm'
+import LoginForm from './components/LoginForm'
+import Notification from './components/Notification'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -10,7 +13,8 @@ const App = () => {
   const [newAuthor, setNewAuthor] = useState('')
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null) 
+  const [user, setUser] = useState(null)
+  const [message, setMessage] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -44,6 +48,10 @@ const App = () => {
       setUsername('')
       setPassword('')
     } catch(exception) {
+      setMessage('wrong username or password')
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
     }
 
@@ -63,30 +71,7 @@ const App = () => {
       setNewUrl(event.target.value)
     }
 
-    const loginForm = () => (
-      <form onSubmit={handleLogin}>
-        <h3>Login</h3>
-        <div>
-          username
-            <input
-            type="text"
-            value={username}
-            name="Username"
-            onChange={({ target }) => setUsername(target.value)}
-          />
-        </div>
-        <div>
-          password
-            <input
-            type="password"
-            value={password}
-            name="Password"
-            onChange={({ target }) => setPassword(target.value)}
-          />
-        </div>
-        <button type="submit">login</button>
-      </form>      
-    )
+
 
     const addBlog = (event) => {
       event.preventDefault()
@@ -104,30 +89,37 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
         setNewTitle('')
         setNewUrl('')
+        setMessage(`a new blog "${newTitle}" by ${newAuthor} added`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 5000)
       })
     }
-  
-    const blogForm = () => (
-      <div>
-        <h2>Create new</h2>
-          <form onSubmit={addBlog}>
-              <p>title: <input value={newTitle} onChange={handleTitleChange} /> </p>
-              <p> author: <input value={newAuthor} onChange={handleAuthorChange}/></p>
-              <p> url: <input value={newUrl} onChange={handleUrlChange} /> </p>
-            <button type="submit">save</button>
-          </form>  
-      </div>
-    )
 
 
   return (
     <div>
       <h2>Blogs</h2>
-      {user === null ?
-      loginForm() :
-      <div>
+      <Notification message = {message}/>
+      {user === null 
+      ? <LoginForm
+          handleLogin = {handleLogin}
+          username = {username}
+          password = {password}
+          setUsername = {setUsername}
+          setPassword = {setPassword}
+      /> 
+      :<div>
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-      {blogForm()}
+      <BlogForm 
+          addBlog = {addBlog}
+          newTitle = {newTitle}
+          handleTitleChange = {handleTitleChange}
+          newAuthor = {newAuthor}
+          handleAuthorChange = {handleAuthorChange}
+          newUrl = {newUrl}
+          handleUrlChange = {handleUrlChange}
+      />
       </div>
       }
       
