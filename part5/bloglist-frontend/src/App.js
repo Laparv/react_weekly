@@ -5,6 +5,7 @@ import loginService from './services/login'
 import BlogForm from './components/BlogForm'
 import LoginForm from './components/LoginForm'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -17,6 +18,7 @@ const App = () => {
   const [message, setMessage] = useState(null)
 
   useEffect(() => {
+    console.log('effect')
     blogService.getAll().then(blogs =>
       setBlogs( blogs )
     )  
@@ -89,12 +91,14 @@ const App = () => {
         setBlogs(blogs.concat(returnedBlog))
         setNewTitle('')
         setNewUrl('')
+        setNewAuthor('')
         setMessage(`a new blog "${newTitle}" by ${newAuthor} added`)
         setTimeout(() => {
           setMessage(null)
         }, 5000)
       })
     }
+
 
 
   return (
@@ -111,6 +115,7 @@ const App = () => {
       /> 
       :<div>
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+      <Togglable buttonLabel="Create a new blog">
       <BlogForm 
           addBlog = {addBlog}
           newTitle = {newTitle}
@@ -120,6 +125,7 @@ const App = () => {
           newUrl = {newUrl}
           handleUrlChange = {handleUrlChange}
       />
+      </Togglable>
       </div>
       }
       
