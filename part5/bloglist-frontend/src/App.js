@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -16,6 +16,8 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [message, setMessage] = useState(null)
+
+  const blogFormRef = useRef()
 
   useEffect(() => {
     console.log('effect')
@@ -85,6 +87,8 @@ const App = () => {
         user: user.username,
       }
 
+      
+
       blogService
       .create(blogObject)
       .then(returnedBlog => {
@@ -93,6 +97,7 @@ const App = () => {
         setNewUrl('')
         setNewAuthor('')
         setMessage(`a new blog "${newTitle}" by ${newAuthor} added`)
+        blogFormRef.current.toggleVisibility()
         setTimeout(() => {
           setMessage(null)
         }, 5000)
@@ -115,7 +120,7 @@ const App = () => {
       /> 
       :<div>
       <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-      <Togglable buttonLabel="Create a new blog">
+      <Togglable buttonLabel="Create a new blog" ref={blogFormRef}>
       <BlogForm 
           addBlog = {addBlog}
           newTitle = {newTitle}
