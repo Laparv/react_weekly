@@ -32,3 +32,15 @@ body {
     color: green;
     background: lightgreen;
   }
+
+  .blog{
+    border: 5px solid;
+    border-color: black;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 20px;
+  }
+
+  .blog:hover {
+    background-color: lightgray;
+  }

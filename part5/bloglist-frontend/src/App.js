@@ -62,7 +62,6 @@ const App = () => {
       setUser(null)
     }
 
-
     const addBlog = (blogObject) => {
       
 
