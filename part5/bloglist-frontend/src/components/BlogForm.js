@@ -1,12 +1,35 @@
-const BlogForm = ({
-    addBlog,
-    newTitle,
-    handleTitleChange,
-    newAuthor,
-    handleAuthorChange,
-    newUrl,
-    handleUrlChange
-}) => {
+import { useState } from "react"
+
+const BlogForm = ({createBlog}) => {
+
+  const [newTitle, setNewTitle] = useState('')
+  const [newUrl, setNewUrl] = useState('')
+  const [newAuthor, setNewAuthor] = useState('')
+
+  const handleTitleChange = (event) => {
+    setNewTitle(event.target.value)
+  }
+  const handleAuthorChange = (event) => {
+    setNewAuthor(event.target.value)
+  }
+  const handleUrlChange = (event) => {
+    setNewUrl(event.target.value)
+  }
+
+  const addBlog = (event) => {
+    event.preventDefault()
+    createBlog({
+        title: newTitle,
+        author: newAuthor,
+        url: newUrl,
+    })
+
+    setNewTitle('')
+    setNewUrl('')
+    setNewAuthor('')
+  }
+
+
     return(
         <>
         <h2>Create new</h2>
