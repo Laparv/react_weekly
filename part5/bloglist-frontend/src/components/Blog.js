@@ -1,5 +1,5 @@
 import '../index.css'
-import { useState, useImperativeHandle, forwardRef } from 'react'
+import { useState} from 'react'
 import blogService from '../services/blogs'
 
 const Blog = ({blog, setBlogs}) => {
@@ -10,13 +10,15 @@ const Blog = ({blog, setBlogs}) => {
 
     const hideWhenVisible = {display: showAll ? 'none' : ''}
     const showWhenVisible = {display: showAll ? '' : 'none'}
+    const hideRemoveButton = {display: showAll ? 'none' : ''}
+    const showRemoveButton = {display: showAll ? '' : 'none'}
 
     const toggleVisibility = () => {
       setShowAll(!showAll)
   }
 
 
-  const updateBlog = (event) => {
+  const updateBlog = async (event) => {
 
     event.preventDefault()
 
@@ -30,12 +32,26 @@ const Blog = ({blog, setBlogs}) => {
     
     const changedLikes = {...blogObject, likes: newLikes + 1}
 
-    blogService.update(blog.id, changedLikes).then(setNewLikes(changedLikes.likes))
-    blogService.getAll().then(blogs => {
-      setBlogs(blogs)
-    })  
+   await blogService.update(blog.id, changedLikes)
+   setNewLikes(changedLikes.likes)
+    
+   const blogs = await blogService.getAll()
+    setBlogs(blogs)
+
   }
 
+  const deleteBlog = async (event) => {
+    event.preventDefault() 
+    if(window.confirm(`Remove blog ${blog.title} by ${blog.author}?`)){
+      await blogService.remove(blog.id)
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+    }
+
+  }
+
+  const user = JSON.parse(window.localStorage.getItem('loggedBlogappUser'))
+  
 
   return(
   <div className="blog" >
@@ -48,6 +64,9 @@ const Blog = ({blog, setBlogs}) => {
         <p>{blog.url}</p>
         <p>{blog.author}</p>
         <p>{blog.user.name}</p>
+        <div style={!user || user.id !== blog.user.id ? hideRemoveButton : showRemoveButton}>
+        <p><button onClick={deleteBlog}>remove</button></p>
+        </div>
       </div>  
 
   </div>

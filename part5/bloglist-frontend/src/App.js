@@ -39,7 +39,7 @@ const App = () => {
 
     try{
       const user = await loginService.login({
-        username, password
+        username, password,
       })
 
       window.localStorage.setItem(
@@ -66,18 +66,17 @@ const App = () => {
 
     
 
-    const addBlog = (blogObject) => {
+    const addBlog = async (blogObject) => {
 
-      blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-        setMessage(`a new blog "${returnedBlog.title}" by ${returnedBlog.author} added`)
-        blogFormRef.current.toggleVisibility()
-        setTimeout(() => {
-          setMessage(null)
-        }, 5000)
-      })
+      const blog = await blogService.create(blogObject)
+      blogFormRef.current.toggleVisibility()
+      setMessage(`a new blog "${blog.title}" by ${blog.author} added`)
+      const blogs = await blogService.getAll()
+      setBlogs(blogs)
+      
+      setTimeout(() => {
+        setMessage(null)
+      }, 5000)
     }
 
 
