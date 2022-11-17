@@ -1,11 +1,12 @@
 import '../index.css'
-import { useState } from 'react'
+import { useState, useImperativeHandle, forwardRef } from 'react'
 import blogService from '../services/blogs'
 
-const Blog = ({blog}) => {
+const Blog = ({blog, setBlogs}) => {
   
   const [showAll, setShowAll] = useState(false)
   const [newLikes, setNewLikes] = useState(blog.likes)
+
 
     const hideWhenVisible = {display: showAll ? 'none' : ''}
     const showWhenVisible = {display: showAll ? '' : 'none'}
@@ -16,6 +17,8 @@ const Blog = ({blog}) => {
 
 
   const updateBlog = (event) => {
+
+    event.preventDefault()
 
     const blogObject = {
       user: blog.user.id,
@@ -28,6 +31,9 @@ const Blog = ({blog}) => {
     const changedLikes = {...blogObject, likes: newLikes + 1}
 
     blogService.update(blog.id, changedLikes).then(setNewLikes(changedLikes.likes))
+    blogService.getAll().then(blogs => {
+      setBlogs(blogs)
+    })  
   }
 
 
