@@ -1,42 +1,41 @@
+const Notification = ({ message }) => {
 
+  if(message === null) {
+    return null
+  }
 
-const Notification = ({message}) => {
+  else if(message.includes('wrong')){
+    return <ErrorNotification message={message}/>
+  }
 
-    if(message === null) {
-        return null
-    }
-
-   else if(message.includes("wrong")){
-        return <ErrorNotification message={message}/>
-    }
-
-    else {
-        return <SuccessNotification message={message} />
+  else {
+    return <SuccessNotification message={message} />
+  }
 }
+const SuccessNotification = ({ message }) => {
+
+  if(message === null) {
+    return null
+  }
+
+  return (
+    <div className="greenMessage" >
+      {message}
+    </div>
+  )
 }
-const SuccessNotification = ({message}) => {
+const ErrorNotification = ({ message }) => {
 
-    if(message === null) {
-        return null
-    }
+  if(message === null) {
+    return null
+  }
 
-    return (
-        <div className="greenMessage" >
-            {message}
-        </div>
-    )
+  return (
+    <div className="redMessage" >
+      {message}
+    </div>
+  )
 }
-const ErrorNotification = ({message}) => {
 
-    if(message === null) {
-        return null
-    }
-
-    return (
-        <div className="redMessage" >
-            {message}
-        </div>
-    )
-}
 
 export default Notification

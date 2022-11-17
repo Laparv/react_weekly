@@ -21,7 +21,7 @@ const App = () => {
     console.log('effect')
     blogService.getAll().then(blogs => {
       setBlogs(blogs)
-    })  
+    })
   }, [])
 
 
@@ -56,28 +56,28 @@ const App = () => {
         setMessage(null)
       }, 5000)
     }
-    }
+  }
 
-    const handleLogout = async (event) => {
-      event.preventDefault()
-      window.localStorage.removeItem('loggedBlogappUser')
-      setUser(null)
-    }
+  const handleLogout = async (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
+  }
 
-    
 
-    const addBlog = async (blogObject) => {
 
-      const blog = await blogService.create(blogObject)
-      blogFormRef.current.toggleVisibility()
-      setMessage(`a new blog "${blog.title}" by ${blog.author} added`)
-      const blogs = await blogService.getAll()
-      setBlogs(blogs)
-      
-      setTimeout(() => {
-        setMessage(null)
-      }, 5000)
-    }
+  const addBlog = async (blogObject) => {
+
+    const blog = await blogService.create(blogObject)
+    blogFormRef.current.toggleVisibility()
+    setMessage(`a new blog "${blog.title}" by ${blog.author} added`)
+    const blogs = await blogService.getAll()
+    setBlogs(blogs)
+
+    setTimeout(() => {
+      setMessage(null)
+    }, 5000)
+  }
 
 
 
@@ -85,27 +85,27 @@ const App = () => {
     <div>
       <h2>Blogs</h2>
       <Notification message = {message}/>
-      {user === null 
-      ? <LoginForm
+      {user === null
+        ? <LoginForm
           handleLogin = {handleLogin}
           username = {username}
           password = {password}
           setUsername = {setUsername}
           setPassword = {setPassword}
-      /> 
-      :<div>
-      <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
-      <Togglable buttonLabel="Create a new blog" ref={blogFormRef}>
-      <BlogForm createBlog= {addBlog} />
-      </Togglable>
-      </div>
+        />
+        :<div>
+          <p>{user.name} logged in <button onClick={handleLogout}>logout</button></p>
+          <Togglable buttonLabel="Create a new blog" ref={blogFormRef}>
+            <BlogForm createBlog= {addBlog} />
+          </Togglable>
+        </div>
       }
-      
+
       {blogs
-      .sort((a,b) => a.likes > b.likes ? -1 : 1)
-      .map(blog =>
-        <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
-      )}
+        .sort((a,b) => a.likes > b.likes ? -1 : 1)
+        .map(blog =>
+          <Blog key={blog.id} blog={blog} setBlogs={setBlogs} />
+        )}
     </div>
   )
 }
